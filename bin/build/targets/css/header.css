@@ -1,0 +1,14 @@
+*[class^='emoticon-']::before,
+*[class*=' emoticon-']::before {
+  content: ' ';
+  display: block;
+  background: currentColor;
+  mask-size: cover;
+  -webkit-mask-size: cover;
+  width: 1em;
+  height: 1em;
+}
+*[class^='emoticon-'],
+*[class*=' emoticon-'] {
+  display: inline-block;
+}

@@ -1,0 +1,31 @@
+{
+  "name": "emoticon",
+  "module": "index.ts",
+  "type": "module",
+  "workspaces": ["packages/*"],
+  "scripts": {
+    "build": "bun run bin/build/index.ts",
+    "test": "jest"
+  },
+  "exports": {
+    "./icons/*.svg": "./icons/*.svg",
+    "./css/*.css": "./css/*.css"
+  },
+  "files": [
+    "css/*.css",
+    "icons"
+  ],
+  "devDependencies": {
+    "@types/bun": "latest",
+    "@vitejs/plugin-vue": "^5.1.2",
+    "hast-util-from-html": "^2.0.1",
+    "hast-util-to-html": "^9.0.1",
+    "listr2": "^8.2.4",
+    "scule": "^1.3.0",
+    "vite": "^5.4.0",
+    "vite-plugin-dts": "^4.0.2"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  }
+}
