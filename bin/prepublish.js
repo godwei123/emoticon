@@ -12,11 +12,7 @@ if (!newVersion) {
   throw new Error(`Tag name ${process.env.TAG_NAME} is not valid.`);
 }
 
-publishNpmPackage('iconoir');
-publishNpmPackage('iconoir-react');
-publishNpmPackage('iconoir-react-native');
-publishNpmPackage('iconoir-vue');
-publishPubPackage('iconoir-flutter');
+publishNpmPackage('emoticon-vue');
 
 function publishNpmPackage(name) {
   console.info('Publishing %s', name);

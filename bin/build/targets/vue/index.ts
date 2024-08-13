@@ -8,6 +8,7 @@ import dts from 'vite-plugin-dts';
 import { generateExport } from '../../lib/import-export.js';
 import iconTemplate from './template.ts';
 
+
 export default async (ctx:any, target:any) => {
   const promises = [];
 
@@ -26,7 +27,7 @@ export default async (ctx:any, target:any) => {
     ];
 
     const generateIconFile = async (src:string, vueFileName:string) => {
-      const iconContent = await fs.readFile(src, 'utf8');
+      const iconContent = await Bun.file(src).text();
 
       const iconAst = fromHtml(iconContent, { fragment: true }) as any;
       // Bind iconProps of the provider to the svg root
@@ -36,7 +37,7 @@ export default async (ctx:any, target:any) => {
 
       const vuePath = path.join(variantOutDir, vueFileName);
 
-      return fs.writeFile(vuePath, componentContent);
+      return await Bun.write(vuePath, componentContent);
     };
 
     for (const icon of icons as any) {
@@ -64,10 +65,10 @@ export default async (ctx:any, target:any) => {
       );
     }
     promises.push(
-      fs.writeFile(path.join(variantOutDir, 'index.ts'), variantIndexContent.join('')),
+      Bun.write(path.join(variantOutDir, 'index.ts'), variantIndexContent.join('')),
     );
   }
-  promises.push(fs.writeFile(path.join(outDir, 'index.ts'), mainIndexContent.join('\n')));
+  promises.push(Bun.write(path.join(outDir, 'index.ts'), mainIndexContent.join('\n')));
   await Promise.all(promises);
 
   return build({

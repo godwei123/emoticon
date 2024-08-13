@@ -2,7 +2,6 @@
   "name": "emoticon",
   "module": "index.ts",
   "type": "module",
-  "workspaces": ["packages/*"],
   "scripts": {
     "build": "bun run bin/build/index.ts",
     "test": "jest"

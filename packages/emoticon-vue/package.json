@@ -8,7 +8,6 @@
     "dist"
   ],
   "scripts": {
-    "build": "bun run bin/build/targets/vue/index.ts"
   },
   "exports": {
     ".": {

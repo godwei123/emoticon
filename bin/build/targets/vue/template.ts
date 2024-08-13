@@ -1,4 +1,4 @@
-const template = (svg) => `<script lang="ts" setup>
+const template = (svg:any) => `<script lang="ts" setup>
 import { inject } from "vue";
 import type { SVGAttributes } from "vue";
 import providerKey from "../providerKey";
