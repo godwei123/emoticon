@@ -1,14 +1,10 @@
-import fs from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-export default async (ctx, target) => {
-  const headerFile = await fs.readFile(
-    path.join(__dirname, 'header.css'),
-    'utf8',
-  );
+export default async (ctx:any, target:any) => {
+  const headerFile = await Bun.file(path.join(__dirname, 'header.css')).text();
 
   const header = headerFile.replace('[YEAR]', new Date().getFullYear()+'');
 
@@ -17,7 +13,7 @@ export default async (ctx, target) => {
   for (const [variant, icons] of Object.entries(ctx.icons)) {
     const variantCssContent = [header];
 
-    const cssTarget = (icon, suffixed) => {
+    const cssTarget = (icon:any, suffixed?:any) => {
       const iconName =
         suffixed && variant !== ctx.global.defaultVariant
           ? icon.nameVariant
@@ -26,8 +22,8 @@ export default async (ctx, target) => {
       return `.iconoir-${iconName}::before`;
     };
 
-    for (const icon of icons) {
-      const fileContent = await fs.readFile(icon.path, 'utf8');
+    for (const icon of icons as any) {
+      const fileContent = await Bun.file(icon.path).text();
 
       const transformedContent = fileContent
         .replace(/\n/g, '')
@@ -41,11 +37,11 @@ export default async (ctx, target) => {
       variantCssContent.push(`${cssTarget(icon)}${cssContent}`);
     }
 
-    await fs.writeFile(
+    await Bun.write(
       path.join(target.path, `emoticon-${variant}.css`),
       variantCssContent.join(''),
     );
   }
 
-  await fs.writeFile(path.join(target.path, 'emoticon.css'), mainCssContent.join(""));
+  await Bun.write(path.join(target.path, 'emoticon.css'), mainCssContent.join(""));
 };

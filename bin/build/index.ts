@@ -9,7 +9,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const rootDir = path.join(__dirname, '..', '..');
 const iconsDir = path.join(rootDir, 'icons');
 
-const iconsVariants = ['3D',"Color",'Flat','HighContrast'];
+const iconsVariants = ["Color",'Flat','HighContrast','3D'];
 const defaultVariant = iconsVariants[0];
 
 const targets:Record<string, { title: string, path: string, target?: string }> = {
@@ -50,7 +50,7 @@ const tasks = new Listr(
                 name,
                 nameVariant,
                 pascalName: pascalCase(name),
-                pascalNameVariant: pascalCase(nameVariant),
+                pascalNameVariant: pascalCase(name),
                 snakeName: snakeCase(name),
                 snakeNameVariant: snakeCase(nameVariant),
                 path: path.join(dir, file),

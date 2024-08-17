@@ -27,10 +27,17 @@ export default async (ctx:any, target:any) => {
     ];
 
     const generateIconFile = async (src:string, vueFileName:string) => {
-      const iconContent = await Bun.file(src).text();
+      let iconContent = await Bun.file(src).text();
+
+      if (variant === 'HighContrast') {
+        iconContent = iconContent.replace(/fill\s*=\s*['"][^'"]*['"]/g, '');
+      }
 
       const iconAst = fromHtml(iconContent, { fragment: true }) as any;
       // Bind iconProps of the provider to the svg root
+      if (variant === 'HighContrast') {
+        iconAst.children[0].properties['fill'] = '#21212';
+      }
       iconAst.children[0].properties['v-bind'] = 'context';
       const transformedIcon = toHtml(iconAst);
       const componentContent = iconTemplate(transformedIcon);
@@ -69,28 +76,47 @@ export default async (ctx:any, target:any) => {
     );
   }
   promises.push(Bun.write(path.join(outDir, 'index.ts'), mainIndexContent.join('\n')));
-  await Promise.all(promises);
-
-  return build({
-    root: target.path,
-    logLevel: 'silent',
-    build: {
-      outDir: 'dist',
-      lib: {
-        entry: path.join('src', 'index.ts'),
-        fileName: (format, name) =>
-          format === 'cjs' ? `${name}.js` : `esm/${name}.mjs`,
-        formats: ['cjs', 'es'],
+  return await Promise.all(promises).then(()=>{
+     return build({
+      root: target.path,
+      logLevel: 'silent',
+      build: {
+      //   rollupOptions: {
+      //     external: [ 'vue'],
+      //     output:[
+      //       {
+      //         format: 'cjs',
+      //         dir: path.join(target.path, 'dist'),
+      //         exports: 'named',
+      //         preserveModules: true,
+      //         entryFileNames: '[name].js',
+      //       },
+      //       {
+      //         format: 'es',
+      //         dir: path.join(target.path,'dist', 'esm'),
+      //         exports: 'named',
+      //         preserveModules: true,
+      //         entryFileNames: '[name].mjs',
+      //       },
+      //     ]
+      //   },
+        outDir: 'dist',
+        lib: {
+          entry: path.join('src', 'index.ts'),
+          fileName: (format, name) =>
+              format === 'cjs' ? `${name}.js` : `esm/${name}.mjs`,
+          formats: ['cjs', 'es'],
+        },
+        rollupOptions: {
+          external: [ 'vue'],
+        },
       },
-      rollupOptions: {
-        external: [ 'vue'],
-      },
-    },
-    plugins: [
-      vue({
-        isProduction: true,
-      }),
-      dts(),
-    ],
+      plugins: [
+        vue(),
+        dts(),
+      ],
+    });
   });
+
+
 };

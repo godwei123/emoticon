@@ -178,4 +178,8 @@ packages/emoticon-vue/src/*
 !packages/emoticon-vue/src/IconoirProvider.vue
 !packages/emoticon-vue/src/providerKey.ts
 
+
+packages/3d/*
+
+
 .vite
