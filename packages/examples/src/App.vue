@@ -1,31 +1,15 @@
 <script setup lang="ts">
-import {
-  AntHighContrast, FaceExhalingHighContrast, FaceHoldingBackTearsHighContrast,
-  FaceSavoringFoodHighContrast, FaceWithSymbolsOnMouthHighContrast, GrinningFaceHighContrast,
-  IconoirProvider, KnockedOutFaceHighContrast,
-  SmilingFaceWithSmilingEyesColor,
-  WearyFaceHighContrast
-} from "emoticon-vue";
+import  * as CompList from "emoticon-vue";
+
 </script>
 
 <template>
   <h1>hello</h1>
+  <div style="display: grid;grid-template-columns: repeat(3,1fr);gap: 20px">
+    <div style="display: flex;flex-direction: column;align-items: center" v-for="(item,index) in CompList" :key="index">
+      <component :is="item" width="100" height="100"></component>
+      <span>{{index}}</span>
+    </div>
+  </div>
 
-  <IconoirProvider :iconProps="{
-    width: '200',
-    height: '200',
-
-  }">
-    <AntHighContrast width="100" height="100"></AntHighContrast>
-    <FaceSavoringFoodHighContrast width="100" height="100"></FaceSavoringFoodHighContrast>
-    <FaceHoldingBackTearsHighContrast width="100" height="100"></FaceHoldingBackTearsHighContrast>
-    <FaceWithSymbolsOnMouthHighContrast width="100" height="100"></FaceWithSymbolsOnMouthHighContrast>
-    <KnockedOutFaceHighContrast width="100" height="100"></KnockedOutFaceHighContrast>
-    <FaceExhalingHighContrast width="100" height="100"></FaceExhalingHighContrast>
-    <GrinningFaceHighContrast width="100" height="100"></GrinningFaceHighContrast>
-    <WearyFaceHighContrast width="100" height="100"></WearyFaceHighContrast>
-    <FaceSavoringFoodHighContrast width="100" height="100"></FaceSavoringFoodHighContrast>
-    <SmilingFaceWithSmilingEyesColor fill="none"></SmilingFaceWithSmilingEyesColor>
-    <WearyFaceHighContrast></WearyFaceHighContrast>
-  </IconoirProvider>
 </template>
